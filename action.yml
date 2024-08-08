@@ -1,37 +1,25 @@
-name: 'Mattermost'
-description: 'Send message to your Mattermost instance'
-author: Mattermost
+name: 'YuChat Send Message'
+description: 'Send message to your YuChat instance'
+author: YuChat
 branding:
   icon: 'send'
-  color: 'blue'
+  color: 'purple'
 
 # Define your inputs here.
 inputs:
-  MATTERMOST_WEBHOOK_URL:
-    description: 'The Mattermost Incoming Webhook URL'
+  YUCHAT_URL:
+    description: 'YuChat API URL'
     required: true
-  MATTERMOST_CHANNEL:
-    description: 'The Mattermost channel to sent the message'
+  YUCHAT_TOKEN:
+    description: 'YuChat Authentication Token'
+    required: true
+  YUCHAT_CHANNEL:
+    description: 'Base62 YuChat channel id'
     required: false
-  MATTERMOST_USERNAME:
-    description: 'The Mattermost username shown in the webhook'
+  MARKDOWN:
+    description: 'Markdown text for message'
     required: false
-  MATTERMOST_ICON_URL:
-    description: 'The Mattermost Icon URL for the webhook'
-    required: false
-  TEXT:
-    description: 'The text for the webhook message'
-    required: false
-  PAYLOAD:
-    description: 'The payload for the webhook'
-    required: false
-  PAYLOAD_FILENAME:
-    description: 'The payload file for the webhook'
-    required: false
-    default: mattermost.json
-    deprecationMessage:
-      This input is deprecated. Please migrate to TEXT or PAYLOAD variable
-
+  
 runs:
   using: node20
   main: dist/index.js

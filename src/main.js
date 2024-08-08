@@ -10,13 +10,10 @@ const fs = require('fs').promises
 async function run() {
   try {
     const inputs = {
-      webhookURL: core.getInput('MATTERMOST_WEBHOOK_URL', { required: true }),
-      channel: core.getInput('MATTERMOST_CHANNEL'),
-      username: core.getInput('MATTERMOST_USERNAME'),
-      icon: core.getInput('MATTERMOST_ICON_URL'),
-      text: core.getInput('TEXT'),
-      payload: core.getInput('PAYLOAD'),
-      filename: core.getInput('PAYLOAD_FILENAME')
+      webhookURL: core.getInput('YUCHAT_URL', { required: true }),
+      channel: core.getInput('YUCHAT_CHANNEL'),
+      token: core.getInput('YUCHAT_TOKEN'),
+      text: core.getInput('MARKDOWN'),
     }
 
     const finalPayload = await generatePayload(inputs)
