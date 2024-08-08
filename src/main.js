@@ -12,6 +12,7 @@ async function run() {
     const inputs = {
       webhookURL: core.getInput('YUCHAT_URL', { required: true }),
       channel: core.getInput('YUCHAT_CHANNEL'),
+      workspace: core.getInput('YUCHAT_WORKSPACE'),
       token: core.getInput('YUCHAT_TOKEN'),
       text: core.getInput('MARKDOWN'),
     }
@@ -49,7 +50,11 @@ async function generatePayload(inputs) {
   if (inputs.text !== '') {
     core.debug('Will use the TEXT input to generate the payload.')
 
-    const payload = {} // тут сделать жсончик для отправки в апи ючата
+    const payload = {
+      workspaceId: inputs.workspace,
+      chatId: inputs.channel,
+      markdown: inputs.text
+    } // тут сделать жсончик для отправки в апи ючата
 
     return payload
   } else {
