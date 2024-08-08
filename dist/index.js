@@ -24955,8 +24955,11 @@ async function run() {
 
 async function sendNotification(url, body, headers) {
   const client = new http.HttpClient()
+  core.debug(`Ready to send payload: ${body} with headers ${headers} to ${url}`)
   const response = await client.post(url, body, headers)
-  await response.readBody()
+  core.debug(`Got response from YuChat API: ${response}`)
+  const responseBody = await response.readBody()
+  core.debug(`Response body: ${responseBody}`)
 
   if (response.message.statusCode === 200) {
     core.info('Successfully sent notification!')
