@@ -15,10 +15,13 @@ inputs:
     required: true
   YUCHAT_CHANNEL:
     description: 'Base62 YuChat channel id'
-    required: false
+    required: true
+  YUCHAT_WORKSPACE:
+    description: 'Base62 YuChat workspace id'
+    required: true
   MARKDOWN:
     description: 'Markdown text for message'
-    required: false
+    required: true
   
 runs:
   using: node20
