@@ -24940,7 +24940,7 @@ async function run() {
 
     const finalPayload = await generatePayload(inputs)
     const headers = {
-      'Authorization': `Bearer ${token}`,
+      'Authorization': `Bearer ${inputs.token}`,
       'Content-Type': 'application/json'
     };
     const body = JSON.stringify(finalPayload);
