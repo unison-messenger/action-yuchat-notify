@@ -24932,10 +24932,10 @@ async function run() {
   try {
     const inputs = {
       webhookURL: core.getInput('YUCHAT_URL', { required: true }),
-      channel: core.getInput('YUCHAT_CHANNEL'),
-      workspace: core.getInput('YUCHAT_WORKSPACE'),
-      token: core.getInput('YUCHAT_TOKEN'),
-      text: core.getInput('MARKDOWN'),
+      channel: core.getInput('YUCHAT_CHANNEL', { required: true }),
+      workspace: core.getInput('YUCHAT_WORKSPACE', { required: true }),
+      token: core.getInput('YUCHAT_TOKEN', { required: true }),
+      text: core.getInput('MARKDOWN', { required: true }),
     }
 
     const finalPayload = await generatePayload(inputs)
