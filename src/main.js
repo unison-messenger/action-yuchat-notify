@@ -17,16 +17,23 @@ async function run() {
     }
 
     const finalPayload = await generatePayload(inputs)
-    core.debug(`${JSON.stringify(finalPayload, undefined, 4)}`)
-    await sendNotification(inputs.webhookURL, finalPayload)
+    const headers = {
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json'
+    };
+    const body = JSON.stringify(finalPayload);
+    const url = inputs.webhookURL;
+
+    core.debug(`Payload: \n${body}`)
+    await sendNotification(url, body, headers)
   } catch (error) {
     core.setFailed(error.message)
   }
 }
 
-async function sendNotification(webhookURL, payload) {
+async function sendNotification(url, body, headers) {
   const client = new http.HttpClient()
-  const response = await client.post(webhookURL, JSON.stringify(payload))
+  const response = await client.post(url, body, headers)
   await response.readBody()
 
   if (response.message.statusCode === 200) {
@@ -38,44 +45,15 @@ async function sendNotification(webhookURL, payload) {
 }
 
 async function generatePayload(inputs) {
-  const legacyPayloadFilePath = path.join(__dirname, '..', inputs.filename)
 
-  const legacyPayloadFileData = await checkLegacy(legacyPayloadFilePath)
-  if (legacyPayloadFileData) {
-    return legacyPayloadFileData
-  }
-
-  if (inputs.payload !== '') {
-    core.debug(`Will use the PAYLOAD input as is`)
-    return JSON.parse(inputs.payload)
-  } else if (inputs.text !== '') {
+  if (inputs.text !== '') {
     core.debug('Will use the TEXT input to generate the payload.')
 
-    const payload = {
-      channel: inputs.channel,
-      username: inputs.username,
-      icon_url: inputs.icon,
-      text: inputs.text
-    }
+    const payload = {} // тут сделать жсончик для отправки в апи ючата
 
     return payload
   } else {
-    throw new Error('You need to provide TEXT or PAYLOAD input')
-  }
-}
-
-async function checkLegacy(filePath) {
-  try {
-    await fs.access(filePath, fs.constants.F_OK)
-    const legacyData = await fs.readFile(filePath)
-    return legacyData
-  } catch (error) {
-    if (error.code === 'ENOENT' || error.code === 'EISDIR') {
-      core.debug(`File ${filePath} does not exist. Moving along ...`)
-      return
-    } else {
-      throw new Error(`You need to provide a valid readable file: ${error}`)
-    }
+    throw new Error('You need to provide TEXT input')
   }
 }
 
